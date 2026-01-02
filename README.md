@@ -6,7 +6,7 @@
 - DBT facilitates the deployment of models to data warehouses by composing SQL queries in the background.
 - By utilizing DBT, we leverage materializations to transform data after extraction, thereby transitioning from the Extract, Transform, Load (ETL) approach to the Extract, Load, Transform (ELT) approach.
 
-**ETL achitecuret hat utilizes DBT to transform data**
+**ETL achitecure that utilizes DBT to transform data**
 
    <img width="800" height="300" alt="image" src="https://github.com/user-attachments/assets/0b970937-313b-45b6-beda-b064054518a5" />
 
