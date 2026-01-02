@@ -9,7 +9,7 @@
 <img width="1024" height="413" alt="image" src="https://github.com/user-attachments/assets/0b970937-313b-45b6-beda-b064054518a5" />
 
  
-**DBT Materialization**: DBT uses different materialization strategies to transform the data in an automated way.The following materialization options can be configured:
+**DBT Materialization**: DBT uses different materialization strategies to transform the data in an automated way.The following materialization options can be configured: 
 
 - View - Creates a view in datawrehouse for the defined model in DBT
 
