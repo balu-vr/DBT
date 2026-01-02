@@ -4,7 +4,9 @@
 - Data Build Tool (DBT) is an open-source command-line tool developed in Python that assists analysts and data engineers in transforming data within data warehouses.
 - This tool expedites the data transformation and integration processes within data warehouses. 
 - DBT facilitates the deployment of models to data warehouses by composing SQL queries in the background.
-- By utilizing DBT, we leverage materializations to transform data after extraction, thereby transitioning from the Extract, Transform, Load (ETL) approach to the Extract, Load, Transform (ELT) approach.   
+- By utilizing DBT, we leverage materializations to transform data after extraction, thereby transitioning from the Extract, Transform, Load (ETL) approach to the Extract, Load, Transform (ELT) approach.
+
+**ETL achitecuret hat utilizes DBT to transform data**
 
    <img width="800" height="300" alt="image" src="https://github.com/user-attachments/assets/0b970937-313b-45b6-beda-b064054518a5" />
 
