@@ -6,7 +6,7 @@
 - DBT facilitates the deployment of models to data warehouses by composing SQL queries in the background.
 - By utilizing DBT, we leverage materializations to transform data after extraction, thereby transitioning from the Extract, Transform, Load (ETL) approach to the Extract, Load, Transform (ELT) approach.   
 
-<img width="1024" height="413" alt="image" src="https://github.com/user-attachments/assets/0b970937-313b-45b6-beda-b064054518a5" />
+   <img width="800" height="300" alt="image" src="https://github.com/user-attachments/assets/0b970937-313b-45b6-beda-b064054518a5" />
 
  
 **DBT Materialization**: DBT uses different materialization strategies to transform the data in an automated way.The following materialization options can be configured: 
@@ -48,7 +48,7 @@
    - snapshots folder that contain dbt models for scd type2 
    - targets folder that contains compiled code of the models defined 
 
-<img width="530" height="360" alt="image" src="https://github.com/user-attachments/assets/2720a40d-c72a-41c5-bef8-c64327c6147a" />
+   <img width="530" height="360" alt="image" src="https://github.com/user-attachments/assets/2720a40d-c72a-41c5-bef8-c64327c6147a" />
 
 
 **Git repository setup**:
@@ -102,6 +102,6 @@
  - This is an ‘incremental’ model that creates snapshottable as configured.
  - The prehook with incremental check executes the prehook query only if the table exists. 
 
-<img width="909" height="535" alt="image" src="https://github.com/user-attachments/assets/6dd2a414-bdcb-4117-810d-8ea8c25e12ba" />
+ <img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/6dd2a414-bdcb-4117-810d-8ea8c25e12ba" />
 
     
