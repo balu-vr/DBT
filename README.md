@@ -62,21 +62,21 @@
 - Steps to create model using DBT.py:
     - Open a python shell on the server 
     - Navigate to the folder where the script is saved.
-          - from DBT import dbt_model
-          - dbt = dbt_model()
-          - Create Snapshot executing the following command with parameters:
-                 - The snapshot model will create the target table with 4 key columns to track history.Refer to DBT snapshot section for more details (#**DBT model template for snapshots**)
-                 - dbt.create_snapshot_model(target_table, unique_key, strategy,colName)
-                 - target_table - Target table that we are loading by the process
-                 - unique_key - Primary key of the table ( Concat fields in case of composite key 'field_1 || field_2 || field_3')
-                 - Strategy - The strategy can be ‘check’ to check the list of columns for changes or ‘timestamp’ to consider timestamp field to identify changes from the stage table
-                 - colName - the timestamp filed column name or the list of columns to track for changes
+    -    - from DBT import dbt_model
+         - dbt = dbt_model()
+         - Create Snapshot executing the following command with parameters:
+         -    - The snapshot model will create the target table with 4 key columns to track history.Refer to DBT snapshot section for more details (#**DBT model template for snapshots**)
+              - dbt.create_snapshot_model(target_table, unique_key, strategy,colName)
+              - target_table: Target table that we are loading by the process
+              - unique_key: Primary key of the table ( Concat fields in case of composite key 'field_1 || field_2 || field_3')
+              - Strategy: The strategy can be ‘check’ to check the list of columns for changes or ‘timestamp’ to consider timestamp field to identify changes from the stage table
+              - colName: the timestamp filed column name or the list of columns to track for changes
 
           - Create Incremental model as follows
-                 - The incremental process will maintain only active records in the table by the unique key using upsert operations. 
-                 - dbt.create_incr_model(target_table, unique_key)
-                 - target_table - Target table that we are loading by the process
-                 - unique_key - Primary key of the table ( Concat fields in case of composite key 'field_1 || field_2 || field_3')
+          -   - The incremental process will maintain only active records in the table by the unique key using upsert operations. 
+              - dbt.create_incr_model(target_table, unique_key)
+              - target_table:Target table that we are loading by the process
+              - unique_key: Primary key of the table ( Concat fields in case of composite key 'field_1 || field_2 || field_3')
 
 **Note**: To create models that can override the schema of the source and target tables, we can refer to the overwrite functions in DBT.py
 
