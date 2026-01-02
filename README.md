@@ -1,64 +1,148 @@
-##What is dbt in Data Engineering?
-dbt is often described as the "T" (Transformation) in ELT (Extract, Load, Transform) [1]. Instead of performing transformations outside the data warehouse, dbt performs them inside it, allowing you to leverage the full power and scalability of your data warehouse's compute engine. 
-Key features and benefits of dbt include:
-Version Control: It integrates seamlessly with Git, allowing teams to collaborate on data models, track changes, and manage different versions of their code [1].
+#Introduction:
 
-**Modularity**: You can break down complex data transformation logic into smaller, reusable SQL models [2]. These models can reference each other, creating dependencies that dbt manages automatically.
-Testing and Documentation: dbt allows you to define tests for your data (e.g., uniqueness, non-null constraints) and automatically generates documentation for your data models and their relationships [1, 2].
-**SQL-based**: dbt is built on top of SQL. While it introduces some templating (Jinja), the core language remains familiar to data professionals [1].
-**Deployment and Orchestration**: Once models are defined, dbt can be run in production environments (manually or via orchestrators like Airflow or dbt Cloud) to manage the entire data transformation pipeline. 
-**How to Set up dbt on Linux**
-dbt can be installed on Linux using pip, the Python package manager. Here is a step-by-step guide: 
-**Prerequisites**
-You need Python and its package manager (pip) installed on your Linux system. 
-**bash**
-# Update your package list
-sudo apt update
+Data Build Tool (DBT) is an open-source command-line tool developed in Python that assists analysts and data engineers in transforming data within data warehouses.
 
-# Install Python 3 and pip (for Debian/Ubuntu based systems)
-sudo apt install python3 python3-pip
-Step 1: Install dbt Core 
-dbt Core is the open-source command-line interface [3]. You also need to install a specific adapter for your data warehouse (e.g., PostgreSQL, Snowflake, BigQuery) [3]. 
-bash
-# Install the base dbt-core package
-pip install dbt-core
+This tool expedites the data transformation and integration processes within data warehouses.
 
-# Install the specific adapter for your data warehouse. 
-# Replace 'postgres' with your target (e.g., snowflake, bigquery, redshift)
-pip install dbt-postgres
-For a full list of supported data platforms, refer to the dbt documentation on available adapters. 
-Step 2: Verify the Installation
-After installation, verify that dbt is correctly installed and check its version: 
-bash
-dbt --version
-Step 3: Start a New dbt Project 
-Use the dbt init command to create a new project directory and set up the basic project structure: 
-bash
-dbt init my_dbt_project
+DBT facilitates the deployment of models to data warehouses by composing SQL queries in the background.
 
-# Change into your new project directory
-cd my_dbt_project
-Step 4: Configure Database Connection 
-dbt creates a profiles.yml file in your home directory (~/.dbt/) where connection details for your data warehouse are stored [3]. The dbt init command will guide you through this setup, but you may need to manually edit the file to provide credentials like your username, password, host, port, and database name. 
-The dbt project documentation provides comprehensive instructions for configuring your profile. 
-Step 5: Run Your First dbt Model 
-You are now ready to write and run models.
-bash
-# Run the example models that come with the dbt init project
-dbt run
-This command will execute the SQL files in your models directory against your connected data warehouse, creating or updating tables and views as defined. 
-For more detailed setup instructions, troubleshooting, and advanced configurations, the official dbt Docs are the primary resource. 
+By utilizing DBT, we leverage materializations to transform data after extraction, thereby transitioning from the Extract, Transform, Load (ETL) approach to the Extract, Load, Transform (ELT) approach.  
 
-### Using the starter project
+image-20240418-033618.png
+ DBT Materialization: DBT uses different materialization strategies to transform the data in an automated way.  The following materialization options can be configured:
 
-Try running the following commands:
-- dbt run
-- dbt test
+View - Creates a view in datawrehouse for the defined model in DBT
+
+Table - Creates a table in datawrehouse for the defined model in DBT
+
+Incremental - This will automatically creates an SCD type1 transformation between Stage and Target tables
+
+Ephemeral - Builds a temporary table which will be created  only for refrence by other models 
+
+ 
+
+DBT Snapshots: 
+
+To define SCD type 2 transformation, DBT uses different strategy called DBT snapshots.
+
+The snapshot models are defined in DBT under snapshot folder. 
+
+To apply SCD Type2 on Target table, the table either should not exist so DBT creates while running the model or we add the folloing to the existing table.
+       - dbt_scd_id: MD5 value 
+
+- dbt_updated_at : TImestamp field used transformation strategy 
+
+- dbt_valid_from : Represents the row is active since. 
+
+- dbt_valid_to : End timestamp of the record.  
+
+DBT architecture:
+
+To setup DBT, we install DBT in a Python environment and install necessary adapters to connect to the database. 
+
+Once the DBT is installed on  the server, the following files and folders are created by DBT.
+
+→ .dbt folder is created at the root 
+
+→ profiles.yml file is created in the .dbt file where the database connections exist 
+
+→ Create a dbt project folder using ‘dbt init {project_name}’
+
+→ Project folder contains:
+
+→ dbt_project.yml file that contains the configurations for the specific project 
+
+→ models folder where the actual dbt models are defined in a .sql file format 
+
+→ macros folder where additional jinja macros are created based on the dbt project need
+
+→ snapshots folder that contain dbt models for scd type2 
+
+→ targets folder that contains compiled code of the models defined 
+
+ 
+
+image-20240418-043422.png
+Folder structure on Servers:
+
+intapp_dbt folder contains the models and snapshots that will be running in the datapipelines.
+
+test_dbt folder contains models and snapshots that the development team want to test on the server. 
+
+image-20240606-032803.png
+Git repository setup:
+qa branch points to AWS QA server and main branch points to ETLPROD1.
+
+https://dev.azure.com/intappdevops/DEA/_git/DataEngineeringDBT
+
+image-20240606-033132.png
+ 
+
+DBT Snapshot and Incremental model creation:
+
+The dbt incremental model or snapshots can be created either manually or using DBT.py class in the common folder.  
+Steps to create model using DBT.py:
+
+Open a python shell on the server : 
+
+from common.DBT import dbt_model
+
+dbt = dbt_model()
+
+Create Snapshot executing the following command with parameters:
+
+The snapshot model will create the target table with 4 key columns to track history.
+
+Refer to DBT snapshot section for more details
+
+dbt.create_snapshot_model(target_table, unique_key, strategy,colName)
+
+target_table - Target table that we are loading by the process
+
+unique_key - Primary key of the table ( Concat fields in case of composite key 'field_1 || field_2 || field_3')
+
+Strategy - The strategy can be ‘check’ to check the list of columns for changes or ‘timestamp’ to consider timestamp field to identify changes from the stage table
+
+colName - the timestamp filed column name or the list of columns to track for changes
+
+Create Incremental model as follows
+
+The incremental process will maintain only active records in the table by the unique key using upsert operations. 
+
+dbt.create_incr_model(target_table, unique_key)
+
+target_table - Target table that we are loading by the process
+
+unique_key - Primary key of the table ( Concat fields in case of composite key 'field_1 || field_2 || field_3')
+
+Note: To create models that can override the schema of the source and target tables, we can refer to the overwrite functions in DBT.py
+
+DBT Model execution in Python:
+
+In each of the data pipelines, we leverage the DBT class to execute the dbt models created above as follows:
 
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+
+#Import the DBT script as library in the Python code
+from common.DBT import dbt_model
+#Create the dbt instance using dbt_model class 
+dbt = dbt_model()
+#To execute the snapshot model in the python process:
+dbt.execute_model('snapshot', bidw_table )
+#To execute the incremental model in the python process:
+dbt.execute_model('run', bidw_table )
+#To execute full refresh of incremental model that recreates and reloads the target table:
+dbt.execute_full_model('run', bidw_table )
+#Scan the logs for errors and raise exception on failure of DBT model
+dbt.scan_log_for_error(bidw_table)
+
+DBT model template for snapshots:
+
+The template below serves as a DBT model to create daily or weekly templates of views or tables in Redshift.
+
+This is an ‘incremental’ model that creates snapshottable as configured.
+
+The prehook with incremental check executes the prehook query only if the table exists. 
+
+image-20240814-183230.png
+    
