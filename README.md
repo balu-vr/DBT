@@ -1,4 +1,4 @@
-# Introduction:
+# Setting up DBT with Redshift:
 
 
 - Data Build Tool (DBT) is an open-source command-line tool developed in Python that assists analysts and data engineers in transforming data within data warehouses.
@@ -6,7 +6,8 @@
 - DBT facilitates the deployment of models to data warehouses by composing SQL queries in the background.
 - By utilizing DBT, we leverage materializations to transform data after extraction, thereby transitioning from the Extract, Transform, Load (ETL) approach to the Extract, Load, Transform (ELT) approach.   
 
-image-20240418-033618.png
+<img width="1024" height="413" alt="image" src="https://github.com/user-attachments/assets/0b970937-313b-45b6-beda-b064054518a5" />
+
  
 **DBT Materialization**: DBT uses different materialization strategies to transform the data in an automated way.The following materialization options can be configured:
 
@@ -47,9 +48,10 @@ image-20240418-033618.png
    - snapshots folder that contain dbt models for scd type2 
    - targets folder that contains compiled code of the models defined 
 
- 
+<img width="530" height="360" alt="image" src="https://github.com/user-attachments/assets/2720a40d-c72a-41c5-bef8-c64327c6147a" />
 
-image-20240418-043422.png
+
+ 
 Folder structure on Servers:
 
 intapp_dbt folder contains the models and snapshots that will be running in the datapipelines.
