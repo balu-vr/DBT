@@ -37,15 +37,15 @@ image-20240418-033618.png
 - To setup DBT, we install DBT in a Python environment and install necessary adapters to connect to the database.
 - Install dbt core  - https://docs.getdbt.com/docs/core/installation-overview 
 - Once the DBT is installed on  the server, the following files and folders are created by DBT.
-   → .dbt folder is created at the root 
-   → profiles.yml file is created in the .dbt file where the database connections exist 
-   → Create a dbt project folder using ‘dbt init {project_name}’
-   → Project folder contains:
-   → dbt_project.yml file that contains the configurations for the specific project 
-   → models folder where the actual dbt models are defined in a .sql file format 
-   → macros folder where additional jinja macros are created based on the dbt project need
-   → snapshots folder that contain dbt models for scd type2 
-   → targets folder that contains compiled code of the models defined 
+   - .dbt folder is created at the root 
+   - profiles.yml file is created in the .dbt file where the database connections exist 
+   - Create a dbt project folder using ‘dbt init {project_name}’
+   - Project folder contains:
+   - dbt_project.yml file that contains the configurations for the specific project 
+   - models folder where the actual dbt models are defined in a .sql file format 
+   - macros folder where additional jinja macros are created based on the dbt project need
+   - snapshots folder that contain dbt models for scd type2 
+   - targets folder that contains compiled code of the models defined 
 
  
 
