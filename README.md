@@ -51,87 +51,56 @@
 <img width="530" height="360" alt="image" src="https://github.com/user-attachments/assets/2720a40d-c72a-41c5-bef8-c64327c6147a" />
 
 
+**Git repository setup**:
+- Setup GIT repository that will sync the models from repository to the server.
+
+   <img width="243" height="157" alt="image" src="https://github.com/user-attachments/assets/e33eae62-fcb6-4d5f-b549-2a1ce2039de9" />
  
-Folder structure on Servers:
+**DBT Model creaation automation**:
+- Create a python script that can help with creating your standarized DBT models and snapshots.
+- Refer to DBT.py defined in the repo for the automated py script.
+- Steps to create model using DBT.py:
+    - Open a python shell on the server 
+    - Navigate to the folder where the script is saved.
+          - from DBT import dbt_model
+          - dbt = dbt_model()
+          - Create Snapshot executing the following command with parameters:
+                 - The snapshot model will create the target table with 4 key columns to track history.Refer to DBT snapshot section for more details (#**DBT model template for snapshots**)
+                 - dbt.create_snapshot_model(target_table, unique_key, strategy,colName)
+                 - target_table - Target table that we are loading by the process
+                 - unique_key - Primary key of the table ( Concat fields in case of composite key 'field_1 || field_2 || field_3')
+                 - Strategy - The strategy can be ‘check’ to check the list of columns for changes or ‘timestamp’ to consider timestamp field to identify changes from the stage table
+                 - colName - the timestamp filed column name or the list of columns to track for changes
 
-intapp_dbt folder contains the models and snapshots that will be running in the datapipelines.
+          - Create Incremental model as follows
+                 - The incremental process will maintain only active records in the table by the unique key using upsert operations. 
+                 - dbt.create_incr_model(target_table, unique_key)
+                 - target_table - Target table that we are loading by the process
+                 - unique_key - Primary key of the table ( Concat fields in case of composite key 'field_1 || field_2 || field_3')
 
-test_dbt folder contains models and snapshots that the development team want to test on the server. 
+**Note**: To create models that can override the schema of the source and target tables, we can refer to the overwrite functions in DBT.py
 
-image-20240606-032803.png
-Git repository setup:
-qa branch points to AWS QA server and main branch points to ETLPROD1.
+**DBT Model execution in Python**:
 
-https://dev.azure.com/intappdevops/DEA/_git/DataEngineeringDBT
+ - In each of the data pipelines, we leverage the DBT class to execute the dbt models created above as follows:
+ - Import the DBT script as library in the Python code
+    - from common.DBT import dbt_model
+ - Create the dbt instance using dbt_model class 
+    - dbt = dbt_model()
+ - To execute the snapshot model in the python process:
+   - dbt.execute_model('snapshot', bidw_table )
+ - To execute the incremental model in the python process:
+   - dbt.execute_model('run', bidw_table )
+ - To execute full refresh of incremental model that recreates and reloads the target table:
+   - dbt.execute_full_model('run', bidw_table )
+ - Scan the logs for errors and raise exception on failure of DBT model
+   - dbt.scan_log_for_error(bidw_table)
 
-image-20240606-033132.png
- 
+**DBT model template for snapshots**:
 
-DBT Snapshot and Incremental model creation:
-
-The dbt incremental model or snapshots can be created either manually or using DBT.py class in the common folder.  
-Steps to create model using DBT.py:
-
-Open a python shell on the server : 
-
-from common.DBT import dbt_model
-
-dbt = dbt_model()
-
-Create Snapshot executing the following command with parameters:
-
-The snapshot model will create the target table with 4 key columns to track history.
-
-Refer to DBT snapshot section for more details
-
-dbt.create_snapshot_model(target_table, unique_key, strategy,colName)
-
-target_table - Target table that we are loading by the process
-
-unique_key - Primary key of the table ( Concat fields in case of composite key 'field_1 || field_2 || field_3')
-
-Strategy - The strategy can be ‘check’ to check the list of columns for changes or ‘timestamp’ to consider timestamp field to identify changes from the stage table
-
-colName - the timestamp filed column name or the list of columns to track for changes
-
-Create Incremental model as follows
-
-The incremental process will maintain only active records in the table by the unique key using upsert operations. 
-
-dbt.create_incr_model(target_table, unique_key)
-
-target_table - Target table that we are loading by the process
-
-unique_key - Primary key of the table ( Concat fields in case of composite key 'field_1 || field_2 || field_3')
-
-Note: To create models that can override the schema of the source and target tables, we can refer to the overwrite functions in DBT.py
-
-DBT Model execution in Python:
-
-In each of the data pipelines, we leverage the DBT class to execute the dbt models created above as follows:
-
-
-
-#Import the DBT script as library in the Python code
-from common.DBT import dbt_model
-#Create the dbt instance using dbt_model class 
-dbt = dbt_model()
-#To execute the snapshot model in the python process:
-dbt.execute_model('snapshot', bidw_table )
-#To execute the incremental model in the python process:
-dbt.execute_model('run', bidw_table )
-#To execute full refresh of incremental model that recreates and reloads the target table:
-dbt.execute_full_model('run', bidw_table )
-#Scan the logs for errors and raise exception on failure of DBT model
-dbt.scan_log_for_error(bidw_table)
-
-DBT model template for snapshots:
-
-The template below serves as a DBT model to create daily or weekly templates of views or tables in Redshift.
-
-This is an ‘incremental’ model that creates snapshottable as configured.
-
-The prehook with incremental check executes the prehook query only if the table exists. 
+ - The template below serves as a DBT model to create daily or weekly templates of views or tables in Redshift.
+ - This is an ‘incremental’ model that creates snapshottable as configured.
+ - The prehook with incremental check executes the prehook query only if the table exists. 
 
 image-20240814-183230.png
     
