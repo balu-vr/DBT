@@ -84,7 +84,7 @@
 
  - In each of the data pipelines, we leverage the DBT class to execute the dbt models created above as follows:
  - Import the DBT script as library in the Python code
-    - from common.DBT import dbt_model
+    - from DBT import dbt_model
  - Create the dbt instance using dbt_model class 
     - dbt = dbt_model()
  - To execute the snapshot model in the python process:
