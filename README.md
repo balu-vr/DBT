@@ -62,7 +62,7 @@
 - Steps to create model using DBT.py:
     - Open a python shell on the server 
     - Navigate to the folder where the script is saved.
-    -    - from DBT import dbt_model
+         - from DBT import dbt_model
          - dbt = dbt_model()
          - Create Snapshot executing the following command with parameters:
               - The snapshot model will create the target table with 4 key columns to track history.Refer to DBT snapshot section for more details [DBT model snapshot](#**DBT model template for snapshots**)
