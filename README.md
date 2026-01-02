@@ -48,7 +48,7 @@
    - snapshots folder that contain dbt models for scd type2 
    - targets folder that contains compiled code of the models defined 
 
-   <img width="530" height="360" alt="image" src="https://github.com/user-attachments/assets/2720a40d-c72a-41c5-bef8-c64327c6147a" />
+   <img width="400" height="250" alt="image" src="https://github.com/user-attachments/assets/2720a40d-c72a-41c5-bef8-c64327c6147a" />
 
 
 **Git repository setup**:
