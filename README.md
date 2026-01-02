@@ -72,7 +72,7 @@
               - Strategy: The strategy can be ‘check’ to check the list of columns for changes or ‘timestamp’ to consider timestamp field to identify changes from the stage table
               - colName: the timestamp filed column name or the list of columns to track for changes
 
-          - Create Incremental model as follows
+         - Create Incremental model as follows
               - The incremental process will maintain only active records in the table by the unique key using upsert operations. 
               - dbt.create_incr_model(target_table, unique_key)
               - target_table:Target table that we are loading by the process
