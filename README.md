@@ -20,44 +20,32 @@ image-20240418-033618.png
 
  
 
-DBT Snapshots: 
+**DBT Snapshots**: 
 
-To define SCD type 2 transformation, DBT uses different strategy called DBT snapshots.
+- To define SCD type 2 transformation, DBT uses different strategy called DBT snapshots.
 
-The snapshot models are defined in DBT under snapshot folder. 
+- The snapshot models are defined in DBT under snapshot folder. 
 
-To apply SCD Type2 on Target table, the table either should not exist so DBT creates while running the model or we add the folloing to the existing table.
+- To apply SCD Type2 on Target table, the table either should not exist so DBT creates while running the model or we add the folloing to the existing table.
        - dbt_scd_id: MD5 value 
+       - dbt_updated_at : TImestamp field used transformation strategy 
+       - dbt_valid_from : Represents the row is active since. 
+       - dbt_valid_to : End timestamp of the record.  
 
-- dbt_updated_at : TImestamp field used transformation strategy 
+**DBT architecture**:
 
-- dbt_valid_from : Represents the row is active since. 
-
-- dbt_valid_to : End timestamp of the record.  
-
-DBT architecture:
-
-To setup DBT, we install DBT in a Python environment and install necessary adapters to connect to the database. 
-
-Once the DBT is installed on  the server, the following files and folders are created by DBT.
-
-→ .dbt folder is created at the root 
-
-→ profiles.yml file is created in the .dbt file where the database connections exist 
-
-→ Create a dbt project folder using ‘dbt init {project_name}’
-
-→ Project folder contains:
-
-→ dbt_project.yml file that contains the configurations for the specific project 
-
-→ models folder where the actual dbt models are defined in a .sql file format 
-
-→ macros folder where additional jinja macros are created based on the dbt project need
-
-→ snapshots folder that contain dbt models for scd type2 
-
-→ targets folder that contains compiled code of the models defined 
+- To setup DBT, we install DBT in a Python environment and install necessary adapters to connect to the database.
+- Install dbt core  - https://docs.getdbt.com/docs/core/installation-overview 
+- Once the DBT is installed on  the server, the following files and folders are created by DBT.
+   → .dbt folder is created at the root 
+   → profiles.yml file is created in the .dbt file where the database connections exist 
+   → Create a dbt project folder using ‘dbt init {project_name}’
+   → Project folder contains:
+   → dbt_project.yml file that contains the configurations for the specific project 
+   → models folder where the actual dbt models are defined in a .sql file format 
+   → macros folder where additional jinja macros are created based on the dbt project need
+   → snapshots folder that contain dbt models for scd type2 
+   → targets folder that contains compiled code of the models defined 
 
  
 
