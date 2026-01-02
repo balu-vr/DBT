@@ -1,4 +1,4 @@
-#Introduction:
+# Introduction:
 
 Data Build Tool (DBT) is an open-source command-line tool developed in Python that assists analysts and data engineers in transforming data within data warehouses.
 
