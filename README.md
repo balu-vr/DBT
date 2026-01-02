@@ -38,7 +38,8 @@
 **DBT architecture**:
 
 - To setup DBT, we install DBT in a Python environment and install necessary adapters to connect to the database.
-- Install dbt core  - https://docs.getdbt.com/docs/core/installation-overview 
+- Install dbt core  - [https://docs.getdbt.com/docs/core/installation-overview ](https://docs.getdbt.com/docs/core/pip-install)
+- Install redshift adapter with dbt core 
 - Once the DBT is installed on  the server, the following files and folders are created by DBT.
    - .dbt folder is created at the root 
    - profiles.yml file is created in the .dbt file where the database connections exist 
@@ -67,7 +68,7 @@
          - from DBT import dbt_model
          - dbt = dbt_model()
          - Create Snapshot executing the following command with parameters:
-              - The snapshot model will create the target table with 4 key columns to track history.Refer to DBT snapshot section for more details [DBT model snapshot](#**DBT model template for snapshots**)
+              - The snapshot model will create the target table with 4 key columns to track history.
               - dbt.create_snapshot_model(target_table, unique_key, strategy,colName)
               - target_table: Target table that we are loading by the process
               - unique_key: Primary key of the table ( Concat fields in case of composite key 'field_1 || field_2 || field_3')
@@ -101,7 +102,7 @@
 **DBT model template for snapshots**:
 
  - The template below serves as a DBT model to create daily or weekly templates of views or tables in Redshift.
- - This is an ‘incremental’ model that creates snapshottable as configured.
+ - This is an ‘incremental’ model that creates snapshot table as configured.
  - The prehook with incremental check executes the prehook query only if the table exists. 
 
  <img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/6dd2a414-bdcb-4117-810d-8ea8c25e12ba" />
