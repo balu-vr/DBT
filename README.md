@@ -7,15 +7,16 @@
 - By utilizing DBT, we leverage materializations to transform data after extraction, thereby transitioning from the Extract, Transform, Load (ETL) approach to the Extract, Load, Transform (ELT) approach.   
 
 image-20240418-033618.png
- DBT Materialization: DBT uses different materialization strategies to transform the data in an automated way.  The following materialization options can be configured:
+ 
+**DBT Materialization**: DBT uses different materialization strategies to transform the data in an automated way.The following materialization options can be configured:
 
-View - Creates a view in datawrehouse for the defined model in DBT
+- View - Creates a view in datawrehouse for the defined model in DBT
 
-Table - Creates a table in datawrehouse for the defined model in DBT
+- Table - Creates a table in datawrehouse for the defined model in DBT
 
-Incremental - This will automatically creates an SCD type1 transformation between Stage and Target tables
+- Incremental - This will automatically creates an SCD type1 transformation between Stage and Target tables
 
-Ephemeral - Builds a temporary table which will be created  only for refrence by other models 
+- Ephemeral - Builds a temporary table which will be created  only for refrence by other models 
 
  
 
