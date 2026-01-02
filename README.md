@@ -102,5 +102,6 @@
  - This is an ‘incremental’ model that creates snapshottable as configured.
  - The prehook with incremental check executes the prehook query only if the table exists. 
 
-image-20240814-183230.png
+<img width="909" height="535" alt="image" src="https://github.com/user-attachments/assets/6dd2a414-bdcb-4117-810d-8ea8c25e12ba" />
+
     
