@@ -65,7 +65,7 @@
     -    - from DBT import dbt_model
          - dbt = dbt_model()
          - Create Snapshot executing the following command with parameters:
-         -    - The snapshot model will create the target table with 4 key columns to track history.Refer to DBT snapshot section for more details (#**DBT model template for snapshots**)
+         -    - The snapshot model will create the target table with 4 key columns to track history.Refer to DBT snapshot section for more details [DBT model snapshot](#**DBT model template for snapshots**)
               - dbt.create_snapshot_model(target_table, unique_key, strategy,colName)
               - target_table: Target table that we are loading by the process
               - unique_key: Primary key of the table ( Concat fields in case of composite key 'field_1 || field_2 || field_3')
